@@ -9,6 +9,7 @@ else
   echo "Homebrew is installed! Updating..."
   brew update
   brew upgrade
+  brew cask upgrade
 fi
 
 brew install \
