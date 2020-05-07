@@ -16,9 +16,11 @@ choco install chocolatey
 choco install firefox
 choco install git
 choco install googlechrome
+choco install jq
 choco install nodejs
 choco install vscode --params "/NoDesktopIcon"
 choco install windirstat
+choco install yq
 
 #Remove the default apps
 Get-AppxPackage *3dbuilder* | Remove-AppxPackage

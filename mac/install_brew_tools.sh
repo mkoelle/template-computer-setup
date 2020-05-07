@@ -28,6 +28,7 @@ brew install \
   terraform \
   thefuck \
   tree \
+  yq \
   zsh \
   # EOL
 
