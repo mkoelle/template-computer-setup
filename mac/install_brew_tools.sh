@@ -9,20 +9,26 @@ else
   echo "Homebrew is installed! Updating..."
   brew update
   brew upgrade
-  brew cask upgrade
+  brew upgrade --cask
 fi
+
+brew tap versent/homebrew-taps
 
 brew install \
   awscli \
+  bash-completion \
   curl \
+  docker \
+  docker-completion \
   git \
   golang \
+  gradle \
   jq \
+  nvm \
   packer \
+  pyenv \
   pipenv \
   python \
-  saml2aws \
-  saml2aws-auto \
   sonar-scanner \
   starship \
   telnet \
@@ -34,9 +40,10 @@ brew install \
   # EOL
 
 brew cask install \
+  docker \
   firefox \
-  fly \
   google-chrome \
+  postman \
   powershell \
   visual-studio-code \
   vlc \

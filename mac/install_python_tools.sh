@@ -12,9 +12,11 @@ fi
 
 pip3 install \
   aws-sam-translator \
+  awscli-local \
   awsume \
   boto3 \
-  pyyaml \
   cfn-lint \
+  localstack \
+  pyyaml \
   yamllint \
   # EOL

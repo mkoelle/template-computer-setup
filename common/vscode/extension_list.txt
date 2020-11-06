@@ -9,6 +9,7 @@ eamodio.gitlens
 esbenp.prettier-vscode
 formulahendry.auto-close-tag
 formulahendry.auto-rename-tag
+hashicorp.terraform
 kddejong.vscode-cfn-lint
 ms-dotnettools.csharp
 ms-python.python
