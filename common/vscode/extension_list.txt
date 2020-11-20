@@ -1,4 +1,6 @@
 alexkrechik.cucumberautocomplete
+bierner.emojisense
+bierner.markdown-emoji
 christian-kohler.npm-intellisense
 CoenraadS.bracket-pair-colorizer
 dariofuzinato.vue-peek
@@ -9,14 +11,19 @@ eamodio.gitlens
 esbenp.prettier-vscode
 formulahendry.auto-close-tag
 formulahendry.auto-rename-tag
+golang.go
 hashicorp.terraform
 kddejong.vscode-cfn-lint
 ms-dotnettools.csharp
 ms-python.python
-ms-vscode.Go
+ms-toolsai.jupyter
 ms-vscode.powershell
+ms-vsliveshare.vsliveshare
+ms-vsliveshare.vsliveshare-audio
+ms-vsliveshare.vsliveshare-pack
 octref.vetur
 Orta.vscode-jest
 redhat.vscode-yaml
 sdras.vue-vscode-snippets
 streetsidesoftware.code-spell-checker
+yzhang.markdown-all-in-one
