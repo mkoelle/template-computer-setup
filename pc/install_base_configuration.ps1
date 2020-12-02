@@ -4,6 +4,9 @@
 # iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))
 # OR 
 # iwr https://chocolatey.org/install.ps1 | iex
+#
+# Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://boxstarter.org/bootstrapper.ps1')); Get-Boxstarter -Force
+# Install-BoxstarterPackage C:\src\github.com\mkoelle\template-computer-setup-master\pc\install_base_configuration.ps1
 
 #windows preferences
 Set-WindowsExplorerOptions -EnableShowFileExtensions -EnableShowFullPathInTitleBar
@@ -16,40 +19,24 @@ choco install chocolatey
 choco install firefox
 choco install git
 choco install googlechrome
+choco install vlc
 choco install jq
 choco install nodejs
+choco install powershell-core
 choco install vscode --params "/NoDesktopIcon"
 choco install windirstat
 choco install yq
 
 #Remove the default apps
-Get-AppxPackage *3dbuilder* | Remove-AppxPackage
-Get-AppxPackage *bingfinance* | Remove-AppxPackage
-Get-AppxPackage *bingnews* | Remove-AppxPackage
-Get-AppxPackage *bingsports* | Remove-AppxPackage
-Get-AppxPackage *bingweather* | Remove-AppxPackage
-Get-AppxPackage *CandyCrush* | Remove-AppxPackage
-Get-AppxPackage *CommsPhone* | Remove-AppxPackage
-Get-AppxPackage *getstarted* | Remove-AppxPackage
-Get-AppxPackage *Messaging* | Remove-AppxPackage
-Get-AppxPackage *officehub* | Remove-AppxPackage
-Get-AppxPackage *onenote* | Remove-AppxPackage
-Get-AppxPackage *people* | Remove-AppxPackage
-Get-AppxPackage *solitairecollection* | Remove-AppxPackage
-Get-AppxPackage *sway* | Remove-AppxPackage
-Get-AppxPackage *twitter* | Remove-AppxPackage
-Get-AppxPackage *windowsalarms* | Remove-AppxPackage
-Get-AppxPackage *WindowsCamera* | Remove-AppxPackage
-Get-AppxPackage *windowscommunicationsapps* | Remove-AppxPackage
-Get-AppxPackage *windowsmaps* | Remove-AppxPackage
-Get-AppxPackage *windowsphone* | Remove-AppxPackage
-Get-AppxPackage *WindowsSoundRecorder* | Remove-AppxPackage
-Get-AppxPackage *xboxapp* | Remove-AppxPackage
-Get-AppxPackage *zunemusic* | Remove-AppxPackage
-Get-AppxPackage *zunevideo* | Remove-AppxPackage
+$bloatware= Join-Path -Path $MyInvocation.MyCommand.Path -ChildPath "bloatware.txt"
+foreach($app in Get-Content $bloatware) {
+  Write-Output "Removing $app"
+  Get-AppxPackage "*$app*" | Remove-AppxPackage
+}
 
 # Pin items to taskbar
-Install-ChocolateyPinnedTaskBarItem $env:SystemRoot\system32\WindowsPowerShell\v1.0\powershell.exe
+# Install-ChocolateyPinnedTaskBarItem -TargetFilePath $env:SystemRoot\system32\WindowsPowerShell\v1.0\powershell.exe
+# taskbar pinning unavialable for now https://github.com/chocolatey/choco/issues/627
 
 # Run Updates
 Install-WindowsUpdate -getUpdatesFromMS -acceptEula -SuppressReboots
