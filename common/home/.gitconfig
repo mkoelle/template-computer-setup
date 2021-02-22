@@ -1,0 +1,17 @@
+[user]
+  name = Mark Koelle
+[includeIf "gitdir:~/src/github.com/"]
+  path = .personal.gitconfig
+[pretty]
+  pretty-history = format:%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset
+[alias]
+  changelog = show --name-only
+  changes = log --oneline --decorate
+  commitnumber = !git log --pretty=oneline | wc -l
+  ph = prettyhistory
+  prettyhistory = log --graph --pretty=pretty-history --abbrev-commit --date=relative
+  ql = quicklog
+  quicklog = log --pretty=format:'%Cblue%h %Cred%cD %Creset%cn %Cgreen%s%Creset' --date-order --graph
+  undo = reset --soft --keep HEAD^
+  unstage = reset HEAD
+  username = config --get user.name

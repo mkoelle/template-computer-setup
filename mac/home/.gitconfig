@@ -1,4 +1,0 @@
-[user]
-  name = Mark Koelle
-[includeIf "gitdir:~/src/github.com/"]
-  path = .personal.gitconfig
