@@ -1,6 +1,6 @@
 [user]
   name = Mark Koelle
-[includeIf "gitdir:C:/src/github.com/"]
+[includeIf "gitdir:~/src/github.com/"]
   path = .personal.gitconfig
 [pretty]
   pretty-history = format:%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset
@@ -24,3 +24,5 @@
 [rebase]
 	autoStash = true
 	autoSquash = true
+[core]
+	editor = code --wait
