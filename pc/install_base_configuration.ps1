@@ -16,21 +16,22 @@ $scriptLocation="C:\src\github.com\mkoelle\template-computer-setup-master\pc"
 # Set-TaskbarOptions -Size Small -Lock -Dock Bottom
 
 #Install basic needs
-choco install awscli
 choco install 7zip
+choco install awscli
 choco install boxstarter
 choco install chocolatey
 choco install firefox
 choco install git
 choco install googlechrome
-choco install vlc
 choco install jq
+choco install kindle
 choco install nodejs
 choco install powershell-core
+choco install terraform
+choco install vlc
 choco install vscode --params "/NoDesktopIcon"
 choco install windirstat
 choco install yq
-choco install kindle
 
 #Remove the default apps
 $bloatware="$scriptLocation\bloatware.txt"
