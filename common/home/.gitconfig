@@ -2,6 +2,21 @@
   name = Mark Koelle
 [includeIf "gitdir:~/src/github.com/"]
   path = .personal.gitconfig
+[core]
+	editor = code --wait
+[merge]
+	tool = vscode
+[mergetool "sourcetree"]
+	cmd = code --wait $MERGED
+[fetch]
+	prune = true
+[pull]
+	rebase = true
+[diff]
+	colorMoved = zebra
+[rebase]
+	autoStash = true
+	autoSquash = true
 [pretty]
   pretty-history = format:%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset
 [alias]
@@ -15,14 +30,3 @@
   undo = reset --soft --keep HEAD^
   unstage = reset HEAD
   username = config --get user.name
-[pull]
-	rebase = true
-[fetch]
-	prune = true
-[diff]
-	colorMoved = zebra
-[rebase]
-	autoStash = true
-	autoSquash = true
-[core]
-	editor = code --wait
