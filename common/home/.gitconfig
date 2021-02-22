@@ -1,6 +1,6 @@
 [user]
   name = Mark Koelle
-[includeIf "gitdir:~/src/github.com/"]
+[includeIf "gitdir:C:/src/github.com/"]
   path = .personal.gitconfig
 [pretty]
   pretty-history = format:%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset
@@ -15,3 +15,12 @@
   undo = reset --soft --keep HEAD^
   unstage = reset HEAD
   username = config --get user.name
+[pull]
+	rebase = true
+[fetch]
+	prune = true
+[diff]
+	colorMoved = zebra
+[rebase]
+	autoStash = true
+	autoSquash = true
