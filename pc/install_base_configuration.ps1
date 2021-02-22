@@ -16,6 +16,7 @@ $scriptLocation="C:\src\github.com\mkoelle\template-computer-setup-master\pc"
 # Set-TaskbarOptions -Size Small -Lock -Dock Bottom
 
 #Install basic needs
+choco install awscli
 choco install 7zip
 choco install boxstarter
 choco install chocolatey
