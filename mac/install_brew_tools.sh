@@ -23,6 +23,7 @@ brew install \
   git \
   golang \
   gradle \
+  jabba \
   jq \
   nvm \
   packer \

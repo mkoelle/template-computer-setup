@@ -1,8 +1,27 @@
 eval $(thefuck --alias)
+alias "fk=fuck"
+alias "fy=fuck --yeah"
 
+# for the lazy
+alias ..="cd .."
+alias ..2="cd ../.."
+alias ..3="cd ../../.."
+alias ..4="cd ../../../.."
+alias ..5="cd ../../../../.."
+alias cd..="cd .."
+
+# Node version manager
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+source $(brew --prefix nvm)/nvm.sh
 
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+# Python version manager
+eval "$(pyenv init -)"
+
+# Java version manager
+[ -s "/Users/koe7194/.jabba/jabba.sh" ] && source "/Users/koe7194/.jabba/jabba.sh"
+
+# Set the default editor from the console to vs code
+export VISUAL="code"
+
+# Add RVM to PATH for ruby scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
