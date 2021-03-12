@@ -20,6 +20,7 @@ brew install \
   curl \
   docker \
   docker-completion \
+  FFmpeg \
   git \
   golang \
   gradle \

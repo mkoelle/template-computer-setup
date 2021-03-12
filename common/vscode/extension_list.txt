@@ -27,3 +27,5 @@ redhat.vscode-yaml
 sdras.vue-vscode-snippets
 streetsidesoftware.code-spell-checker
 yzhang.markdown-all-in-one
+arcsine.chronicler
+uppernauts.typeit
