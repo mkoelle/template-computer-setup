@@ -1,7 +1,7 @@
 [user]
   name = Mark Koelle
-[includeIf "gitdir:~/src/github.com/"]
-  path = .personal.gitconfig
+[includeIf "gitdir:**/src/github.com/"]
+  path = ~/.personal.gitconfig
 [core]
 	editor = code --wait
 [merge]

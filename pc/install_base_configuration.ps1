@@ -29,6 +29,7 @@ choco install nodejs
 choco install powershell-core
 choco install terraform
 choco install vlc
+choco install myki
 choco install vscode --params "/NoDesktopIcon"
 choco install windirstat
 choco install yq

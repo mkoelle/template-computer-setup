@@ -4,14 +4,17 @@ iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.co
 
 function addLineToProfile {
   param([String]$profileLine )
-    if ($null -eq $profile -or (-not(Test-Path $profile))) {
-        Write-Output "$profileLine" | Out-File $profile -Force -encoding utf8
-        Write-Output "Created $profile"
-    } elseif ( -not(Select-String -Path $profile -Pattern "$profileLine")) {
-        Write-Output "`n$profileLine" | Out-File $profile -Append -encoding utf8
+    if ($null -eq $PROFILE.CurrentUserAllHosts -or (-not(Test-Path $PROFILE.CurrentUserAllHosts))) {
+        Write-Output "$profileLine" | Out-File $PROFILE.CurrentUserAllHosts -Force -encoding utf8
+        Write-Output "Created $PROFILE.CurrentUserAllHosts"
+    } elseif ( -not(Select-String -Path $PROFILE.CurrentUserAllHosts -Pattern "$profileLine")) {
+        Write-Output "`n$profileLine" | Out-File $PROFILE.CurrentUserAllHosts -Append -encoding utf8
         Write-Output "Added $profileLine to profile"
     }
 }
 
 addLineToProfile("Import-Module posh-git")
 addLineToProfile("Set-Alias -Name fy -Value fuck!")
+
+$Personal_cert = $(Join-Path $home .ssh/personal_github)
+ssh-keygen -t ed25519 -C "mkoelle@gmail.com" -f $Personal_cert -q -N """"
