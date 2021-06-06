@@ -33,6 +33,7 @@ choco install myki
 choco install vscode --params "/NoDesktopIcon"
 choco install windirstat
 choco install yq
+choco install pyenv-win
 
 #Remove the default apps
 $bloatware="$scriptLocation\bloatware.txt"
