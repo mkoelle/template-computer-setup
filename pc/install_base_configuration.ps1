@@ -34,6 +34,7 @@ choco install vscode --params "/NoDesktopIcon"
 choco install windirstat
 choco install yq
 choco install pyenv-win
+choco install telegram
 
 #Remove the default apps
 $bloatware="$scriptLocation\bloatware.txt"
