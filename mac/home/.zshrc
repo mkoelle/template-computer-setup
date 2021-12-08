@@ -25,3 +25,10 @@ export VISUAL="code"
 
 # Add RVM to PATH for ruby scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
+
+function aws-sso-login {
+    profile="${1:-${AWS_PROFILE:="mk-hb-dev-devops"}}"
+    aws sso login --profile "${profile}"
+    ssocreds --profile "${profile}"
+    export AWS_PROFILE="${profile}"
+}
