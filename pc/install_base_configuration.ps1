@@ -15,6 +15,12 @@ $scriptLocation="C:\src\github.com\mkoelle\template-computer-setup-master\pc"
 # Set-WindosExplorerOptions -EnableShowFileExtensions -EnableShowFullPathInTitleBar
 # Set-TaskbarOptions -Size Small -Lock -Dock Bottom
 
+
+winget install --id Starship.Starship
+winget install ajeetdsouza.zoxide
+winget install fzf
+winget install Schniz.fnm
+
 #Install basic needs
 choco install 7zip
 choco install awscli
@@ -29,7 +35,6 @@ choco install nodejs
 choco install powershell-core
 choco install terraform
 choco install vlc
-choco install myki
 choco install vscode --params "/NoDesktopIcon"
 choco install windirstat
 choco install yq
