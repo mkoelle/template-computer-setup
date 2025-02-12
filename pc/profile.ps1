@@ -1,3 +1,5 @@
+# code $PROFILE.CurrentUserAllHosts
+
 Invoke-Expression (&starship init powershell)
 
 Invoke-Expression (& { (zoxide init --cmd j powershell | Out-String) })
