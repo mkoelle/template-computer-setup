@@ -15,38 +15,41 @@ fi
 brew tap versent/homebrew-taps
 
 brew install \
+  atuin \
   awscli \
   bash-completion \
   curl \
-  docker \
   docker-completion \
-  FFmpeg \
+  fnm \
+  font-fira-code \
+  fzf \
   git \
   golang \
   gradle \
   jabba \
   jq \
   nvm \
-  packer \
-  pyenv \
+  pamburus/tap/hl \
   pipenv \
+  pyenv \
   python \
   sonar-scanner \
   starship \
-  telnet \
-  terraform \
   thefuck \
-  tree \
+  tre-command \
   yq \
+  zoxide \
   zsh \
   # EOL
 
 brew cask install \
+  bruno \
   docker \
   firefox \
   google-chrome \
   postman \
   powershell \
+  rectangle \
   visual-studio-code \
   vlc \
   # EOL
