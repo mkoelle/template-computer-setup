@@ -1,9 +1,10 @@
-apt-get update
-apt upgrade
 
-# snap install \
-#     curl \
-#     -y
+set -e 
+
+apt-get update
+apt-get upgrade -Y
+apt update
+apt upgrade -y
 
 apt install \
     curl \
@@ -14,10 +15,9 @@ apt install \
 
 apt-get install \
     git \
-    powerline \
-    fonts-powerline \
     -y
 
 apt-get autoremove
 apt-get autoclean
-
+apt autoremove -y
+apt autoclean -y

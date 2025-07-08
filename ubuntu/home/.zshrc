@@ -5,9 +5,9 @@ HIST_STAMPS="yyyy-mm-dd"
 plugins=(git zsh-syntax-highlighting zsh-autosuggestions)
 source $ZSH/oh-my-zsh.sh
 
-eval $(thefuck --alias)
-alias "fk=fuck"
-alias "fy=fuck --yeah"
+# eval $(thefuck --alias)
+# alias "fk=fuck"
+# alias "fy=fuck --yeah"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
