@@ -15,7 +15,12 @@ apt install \
 
 apt-get install \
     git \
+    yq \
+    jq \
     -y
+
+snap refresh
+snap install kubectl --classic
 
 apt-get autoremove
 apt-get autoclean
