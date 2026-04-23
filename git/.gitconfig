@@ -1,5 +1,6 @@
 [user]
   name = Mark Koelle
+  email = mkoelle@gmail.com
 
 [core]
   editor = code --wait
