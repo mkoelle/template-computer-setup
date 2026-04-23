@@ -1,0 +1,62 @@
+# install with:
+# brew bundle install
+
+# -----------------------------
+# Core package manager + shell
+# -----------------------------
+brew "zsh"
+brew "bash-completion"
+
+# -----------------------------
+# Unified runtime manager
+# -----------------------------
+brew "mise"
+
+# -----------------------------
+# System utilities
+# -----------------------------
+brew "atuin"
+brew "awscli"
+brew "curl"
+brew "fzf"
+brew "git"
+brew "jq"
+brew "yq"
+brew "zoxide"
+brew "stow"
+brew "starship"
+brew "thefuck"
+brew "tre-command"
+brew "pamburus/tap/hl"
+
+# -----------------------------
+# Fonts
+# -----------------------------
+cask "font-fira-code"
+
+# -----------------------------
+# Developer tools (GUI)
+# -----------------------------
+cask "visual-studio-code"
+cask "bruno"
+
+# -----------------------------
+# Containers
+# -----------------------------
+cask "podman-desktop"
+
+# -----------------------------
+# Browsers
+# -----------------------------
+cask "firefox"
+cask "google-chrome"
+
+# -----------------------------
+# Media
+# -----------------------------
+cask "vlc"
+
+# -----------------------------
+# Game engine / dev tools
+# -----------------------------
+cask "godot"

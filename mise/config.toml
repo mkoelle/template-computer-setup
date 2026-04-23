@@ -1,0 +1,13 @@
+[tools]
+node = "lts"
+python = "3.12"
+go = "latest"
+java = "temurin-21"
+rust = "stable"
+gradle = "latest"
+sonar-scanner = "latest"
+uv = "latest"
+godot = "latest" # CLI version, not GUI editor
+
+[settings]
+experimental = true
