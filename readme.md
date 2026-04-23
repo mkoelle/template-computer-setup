@@ -21,7 +21,7 @@ The goal is a clean, unified environment across all machines with minimal duplic
 |   +-- BrewFile              # Homebrew packages, casks, and fonts
 +-- git/
 |   +-- .gitconfig            # Shared Git config and aliases
-|   +-- .personal.gitconfig   # Personal email and SSH key
+|   +-- .personal.gitconfig   # Personal email and SSH key location
 +-- mise/
 |   +-- .config/mise/
 |       +-- config.toml       # Runtime versions (Node, Python, Go, etc.)
@@ -55,7 +55,7 @@ The goal is a clean, unified environment across all machines with minimal duplic
 2. Clone the repo:
 
    ```sh
-   git clone https://github.com/mkoelle/template-computer-setup.git ~/.dotfiles
+   git clone https://github.com/mkoelle/dotfiles.git ~/.dotfiles
    cd ~/.dotfiles
    ```
 
