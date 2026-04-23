@@ -1,0 +1,136 @@
+[user]
+  name = Mark Koelle
+  email = mkoelle@gmail.com
+
+[core]
+  editor = code --wait
+  excludesfile = ~/.gitignore_global
+  preloadIndex = true
+  fscache = true
+
+[merge]
+  tool = code
+  conflictStyle = zdiff3
+
+[mergetool "code"]
+  cmd = code --wait --merge $REMOTE $LOCAL $BASE $MERGED
+
+[fetch]
+  prune = true
+
+[pull]
+  rebase = true
+  ff = only
+
+[push]
+  default = current
+  autoSetupRemote = true
+
+[diff]
+  colorMoved = zebra
+  mnemonicPrefix = true
+  algorithm = histogram
+  indentHeuristic = true
+
+[rebase]
+  autoStash = true
+  autoSquash = true
+
+[branch]
+  autoSetupMerge = always
+  autoSetupRebase = always
+
+[pretty]
+  pretty-history = format:%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset
+
+[help]
+  autocorrect = prompt
+
+[gc]
+  writeCommitGraph = true
+
+[alias]
+  # -- Simple shortcuts ----------------------------------------------
+  changelog     = show --name-only
+  changes       = log --oneline --decorate --stat
+  commitnumber  = "!git log --pretty=oneline | wc -l"
+  fix           = commit --fixup HEAD
+  ph            = prettyhistory
+  prettyhistory = log --graph --pretty=pretty-history --abbrev-commit --date=relative
+  ql            = quicklog
+  quicklog      = log --pretty=format:'%Cblue%h %Cred%cD %Creset%cn %Cgreen%s%Creset' --date-order --graph
+  ra            = rebase --abort
+  rc            = rebase --continue
+  rs            = rebase --skip
+  undo          = reset --soft HEAD~1
+  unstage       = reset HEAD
+  username      = config --get user.name
+
+  # -- Fetch / prune -------------------------------------------------
+  # Named "prune-origin" (not "prune") to avoid collision with `git prune`.
+  prune-origin = fetch --prune origin
+
+  # -- Branch listing -------------------------------------------------
+  #
+  # list-gone
+  #   Branches whose upstream is marked [gone] (remote branch deleted).
+  #   Excludes the current branch.
+  list-gone = "!f() { \
+      git prune-origin >/dev/null 2>&1; \
+      cur=$(git branch --show-current 2>/dev/null); \
+      git for-each-ref \
+        --format='%(refname:short)%09%(upstream:track)' \
+        refs/heads \
+      | awk -F '\\t' -v cur=\"$cur\" \
+        '$1 != cur && $2 == \"[gone]\" { print $1 }'; \
+    }; f"
+
+  # list-local-only
+  #   Branches that are NOT on a remote in the practical sense:
+  #     - no upstream configured, OR
+  #     - upstream tracks a local branch (not refs/remotes/...), OR
+  #     - upstream is [gone]
+  #   This is intentionally a superset of list-gone.
+  #   Excludes the current branch.
+  list-local-only = "!f() { \
+      git prune-origin >/dev/null 2>&1; \
+      cur=$(git branch --show-current 2>/dev/null); \
+      git for-each-ref \
+        --format='%(refname:short)%09%(upstream)%09%(upstream:track)' \
+        refs/heads \
+      | awk -F '\\t' -v cur=\"$cur\" \
+        '$1 != cur && ($2 == \"\" || $2 !~ /^refs\\/remotes\\// || $3 == \"[gone]\") { print $1 }'; \
+    }; f"
+  list-local = list-local-only
+
+  # -- Branch cleanup -------------------------------------------------
+  #
+  # nuke <branch ...>
+  #   Delete branches passed as args OR piped via stdin.
+  nuke = "!f() { \
+      del() { git branch -D -- \"$1\"; }; \
+      if [ \"$#\" -gt 0 ]; then \
+        for b in \"$@\"; do [ -n \"$b\" ] && del \"$b\"; done; \
+      else \
+        while IFS= read -r b; do [ -n \"$b\" ] && del \"$b\"; done; \
+      fi; \
+    }; f"
+
+  # nuke-gone
+  #   Show and delete all [gone] branches (no confirmation).
+  nuke-gone = "!f() { \
+      br=$(git list-gone); \
+      [ -z \"$br\" ] && echo \"No gone branches.\" && exit 0; \
+      echo \"$br\"; \
+      printf '%s\\n' \"$br\" | git nuke; \
+    }; f"
+
+  # nuke-local-only
+  #   Show and delete all local-only branches (no confirmation).
+  nuke-local-only = "!f() { \
+      br=$(git list-local-only); \
+      [ -z \"$br\" ] && echo \"No local-only branches.\" && exit 0; \
+      echo \"$br\"; \
+      printf '%s\\n' \"$br\" | git nuke; \
+    }; f"
+  nuke-local = nuke-local-only
