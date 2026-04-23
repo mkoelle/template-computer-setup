@@ -45,10 +45,15 @@ echo "🔗 Symlinking VS Code settings..."
 
 mkdir -p ~/Library/Application\ Support/Code/User
 
-ln -sf "$HOME/.dotfiles/vscode/settings.json" \
+# Determine repo root
+REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+
+# Symlink settings.json
+ln -sf "$REPO_ROOT/vscode/settings.json" \
   "$HOME/Library/Application Support/Code/User/settings.json"
 
-ln -sf "$HOME/.dotfiles/vscode/extensions.json" \
+# Symlink extensions.json
+ln -sf "$REPO_ROOT/vscode/extensions.json" \
   "$HOME/Library/Application Support/Code/User/extensions.json"
 
 # -----------------------------
