@@ -30,12 +30,9 @@ if command -v stow >/dev/null 2>&1; then
   echo "🔗 Symlinking dotfiles with stow..."
   cd "$(dirname "$0")/.."
 
-  stow zsh
-  stow git
-  stow mise
-  # stow vscode
-  stow brew
-  stow powershell
+  stow --verbose --target=$HOME zsh
+  stow --verbose --target=$HOME git
+  stow --verbose --target=$HOME mise
 else
   echo "⚠️ GNU stow not installed. Skipping symlinks."
   echo "Install with: brew install stow"
