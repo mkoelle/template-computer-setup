@@ -57,6 +57,14 @@ ln -sf "$REPO_ROOT/vscode/extensions.json" \
   "$HOME/Library/Application Support/Code/User/extensions.json"
 
 # -----------------------------
+# Symlink local bin files
+# -----------------------------
+
+mkdir -p ~/.local/bin
+ln -sfn "$REPO_ROOT/bin/"* "$HOME/.local/bin/"
+
+
+# -----------------------------
 # Set zsh as default shell
 # -----------------------------
 if [[ "$SHELL" != "/bin/zsh" ]]; then
