@@ -21,13 +21,13 @@ brew "curl"
 brew "fzf"
 brew "git"
 brew "jq"
-brew "yq"
-brew "zoxide"
-brew "stow"
+brew "pamburus/tap/hl"
 brew "starship"
+brew "stow"
 brew "thefuck"
 brew "tre-command"
-brew "pamburus/tap/hl"
+brew "yq"
+brew "zoxide"
 
 # -----------------------------
 # Fonts
@@ -37,13 +37,13 @@ cask "font-fira-code"
 # -----------------------------
 # Developer tools (GUI)
 # -----------------------------
-cask "visual-studio-code"
+cask "antigravity"
 cask "bruno"
+cask "visual-studio-code"
 
 # -----------------------------
 # LLM tooling (CLI)
 # -----------------------------
-
 cask "claude-code"
 brew "copilot"
 

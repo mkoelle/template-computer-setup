@@ -65,50 +65,23 @@
   ra = rebase --abort
   rs = rebase --skip
 [alias]
-  # Prune remote-tracking branches (safe name; doesn't collide with `git prune`)
+  # Keep this name (do NOT call it `prune`): avoids collision with real `git prune`. [2](https://www.systutorials.com/linux-manual-page-1-git-for-each-ref/)
   prune-origin = fetch --prune origin
 
-  # Determine default branch name (origin/HEAD -> main/master/etc), with safe fallbacks
-  default-branch = "!f(){ \
-    b=$(git symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null | sed 's@^origin/@@'); \
-    [ -n \"$b\" ] || b=$(git symbolic-ref --quiet --short HEAD 2>/dev/null); \
-    [ -n \"$b\" ] || b=$(git for-each-ref --sort=-committerdate --format='%(refname:short)' refs/heads | head -n1); \
-    printf '%s\n' \"$b\"; \
-  }; f"
+  # 1) list-gone: branches whose configured upstream is missing ([gone]) [1](https://gist.github.com/onildoaguiar/fcb5b82f883f6c2aa0153c55f3235e87?permalink_comment_id=3949725)
 
-  # List local branches merged into the default branch (not into "current branch")
-  list-merged = "!f(){ \
-    db=$(git default-branch); \
-    base=\"$db\"; \
-    git show-ref --verify --quiet \"refs/remotes/origin/$db\" && base=\"origin/$db\"; \
-    git for-each-ref --merged \"$base\" --format='%(refname:short)' refs/heads \
-      | grep -Ev \"^(\"$db\"|main|master|dev|prod|trunk|develop)$\"; \
-  }; f"
+  list-gone = "!f(){ git prune-origin >/dev/null 2>&1; cur=$(git branch --show-current 2>/dev/null); git for-each-ref --format='%(refname:short)%09%(upstream:track)' refs/heads | awk -F '\\t' -v cur=\"$cur\" '$1!=cur && $2==\"[gone]\" {print $1}'; }; f"
 
-  # List branches whose upstream is gone (robust; avoids parsing `git branch -vv`)
-  list-gone = "!git for-each-ref --format='%(refname:short) %(upstream:track)' refs/heads \
-    | awk '$2==\"[gone]\" {print $1}'"
+  # 2) list-local-only:
+  #    branches that are NOT on the remote in the practical sense:
+  #      - no upstream configured, OR
+  #      - upstream tracks a local branch (not refs/remotes/…), OR
+  #      - upstream configured but gone ([gone])
+  #
+  #    NOTE: This is intentionally a superset of list-gone.
+  list-local-only = "!f(){ git prune-origin >/dev/null 2>&1; cur=$(git branch --show-current 2>/dev/null); git for-each-ref --format='%(refname:short)%09%(upstream)%09%(upstream:track)' refs/heads | awk -F '\\t' -v cur=\"$cur\" '$1!=cur && ($2==\"\" || $2!~/^refs\\/remotes\\// || $3==\"[gone]\") {print $1}'; }; f"
 
-  # List branches that have no upstream configured at all (true local-only)
-  list-no-upstream = "!git for-each-ref --format='%(refname:short) %(upstream:short)' refs/heads \
-    | awk '$2==\"\" {print $1}'"
-
-  # List branches that do not exist on origin by name (portable; no process substitution)
-  list-local-only = "!f(){ \
-    t1=$(mktemp 2>/dev/null || mktemp -t gitbr); \
-    t2=$(mktemp 2>/dev/null || mktemp -t gitbr); \
-    git for-each-ref --format='%(refname:short)' refs/heads | sort >\"$t1\"; \
-    git for-each-ref --format='%(refname:short)' refs/remotes/origin \
-      | sed 's@^origin/@@' | grep -v '^HEAD$' | sort >\"$t2\"; \
-    comm -23 \"$t1\" \"$t2\"; \
-    rm -f \"$t1\" \"$t2\"; \
-  }; f"
-
-  # Rollups (these are the “what would be nuked” lists)
-  list-stale = "!f(){ (git list-merged; git list-gone) | sort -u; }; f"
-  list-all-nukable = "!f(){ (git list-stale; git list-local-only) | sort -u; }; f"
-
-  # Core deleter: accepts args OR stdin; no xargs portability issues; no prompts
+  # 3) nuke: delete branches passed as args OR via stdin (portable; no xargs flags)
   nuke = "!f(){ \
     del(){ git branch -D -- \"$1\"; }; \
     if [ \"$#\" -gt 0 ]; then \
@@ -118,28 +91,18 @@
     fi; \
   }; f"
 
-  # Non-interactive nukes (they PRINT what they'll delete, then delete)
-  nuke-merged = "!f(){ git prune-origin >/dev/null; br=$(git list-merged); \
-    [ -z \"$br\" ] && echo \"No merged branches.\" && exit 0; \
-    echo \"$br\"; echo \"$br\" | git nuke; \
-  }; f"
-
-  nuke-gone = "!f(){ git prune-origin >/dev/null; br=$(git list-gone); \
+  # 4) nuke-gone: prints what will be deleted, then deletes (no confirmation)
+  nuke-gone = "!f(){ \
+    br=$(git list-gone); \
     [ -z \"$br\" ] && echo \"No gone branches.\" && exit 0; \
-    echo \"$br\"; echo \"$br\" | git nuke; \
+    echo \"$br\"; \
+    printf '%s\n' \"$br\" | git nuke; \
   }; f"
 
-  nuke-local-only = "!f(){ br=$(git list-local-only); \
+  # 5) nuke-local-only: prints what will be deleted, then deletes (no confirmation)
+  nuke-local-only = "!f(){ \
+    br=$(git list-local-only); \
     [ -z \"$br\" ] && echo \"No local-only branches.\" && exit 0; \
-    echo \"$br\"; echo \"$br\" | git nuke; \
-  }; f"
-
-  nuke-stale = "!f(){ git prune-origin >/dev/null; br=$(git list-stale); \
-    [ -z \"$br\" ] && echo \"No stale branches.\" && exit 0; \
-    echo \"$br\"; echo \"$br\" | git nuke; \
-  }; f"
-
-  nuke-all = "!f(){ git prune-origin >/dev/null; br=$(git list-all-nukable); \
-    [ -z \"$br\" ] && echo \"No branches to delete.\" && exit 0; \
-    echo \"$br\"; echo \"$br\" | git nuke; \
+    echo \"$br\"; \
+    printf '%s\n' \"$br\" | git nuke; \
   }; f"
