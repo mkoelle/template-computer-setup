@@ -41,6 +41,13 @@ cask "visual-studio-code"
 cask "bruno"
 
 # -----------------------------
+# LLM tooling (CLI)
+# -----------------------------
+
+cask "claude-code"
+brew "copilot"
+
+# -----------------------------
 # Containers
 # -----------------------------
 cask "podman-desktop"
