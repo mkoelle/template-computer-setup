@@ -17,6 +17,9 @@ export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
 # mise shims early in PATH
 export PATH="$HOME/.local/share/mise/shims:$PATH"
 
+# personal bin additions
+export PATH="$HOME/.local/bin:$PATH"
+
 # Default editor
 export VISUAL="code"
 export EDITOR="code"
