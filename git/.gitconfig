@@ -1,33 +1,81 @@
 [user]
   name = Mark Koelle
-[includeIf "gitdir:**/src/github.com/"]
-  path = ~/.personal.gitconfig
+
 [core]
-	editor = code --wait
+  editor = code --wait
+  excludesfile = ~/.gitignore_global
+  preloadIndex = true
+  fscache = true
+
 [merge]
-	tool = vscode
-[mergetool "sourcetree"]
-	cmd = code --wait $MERGED
+  tool = code
+  conflictStyle = zdiff3
+
+[mergetool "code"]
+  cmd = code --wait --merge $REMOTE $LOCAL $BASE $MERGED
+
 [fetch]
-	prune = true
+  prune = true
+
 [pull]
-	rebase = true
+  rebase = true
+  ff = only
+
+[push]
+  default = current
+  autoSetupRemote = true
+
 [diff]
-	colorMoved = zebra
+  colorMoved = zebra
+  mnemonicPrefix = true
+  algorithm = histogram
+  indentHeuristic = true
+
 [rebase]
-	autoStash = true
-	autoSquash = true
+  autoStash = true
+  autoSquash = true
+
+[branch]
+  autoSetupMerge = always
+  autoSetupRebase = always
+
 [pretty]
   pretty-history = format:%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset
+
+[help]
+  autocorrect = prompt
+
+[gc]
+  writeCommitGraph = true
+
 [alias]
   changelog = show --name-only
-  changes = log --oneline --decorate
-  commitnumber = !git log --pretty=oneline | wc -l
+  changes = log --oneline --decorate --stat
+  commitnumber = "!git log --pretty=oneline | wc -l"
   ph = prettyhistory
   prettyhistory = log --graph --pretty=pretty-history --abbrev-commit --date=relative
   ql = quicklog
   quicklog = log --pretty=format:'%Cblue%h %Cred%cD %Creset%cn %Cgreen%s%Creset' --date-order --graph
-  undo = reset --soft --keep HEAD^
+  undo = reset --soft HEAD~1
   unstage = reset HEAD
   username = config --get user.name
-  clear-branches = !bash -c 'git remote prune origin && git branch | grep -Ev \"main|prod|master|dev\" | xargs git branch -D'
+  fix = commit --fixup HEAD
+  rc = rebase --continue
+  ra = rebase --abort
+  rs = rebase --skip
+[alias]
+  prune = "!git remote prune origin"
+  list-merged = "!git branch --merged | grep -Ev '^(\\*|main|master|dev|prod)$'"
+  list-gone = "!git branch -vv | awk '/: gone]/{print $1}'"
+  list-local-only = "!comm -23 <(git branch --format='%(refname:short)' | sort) <(git branch -r --format='%(refname:short)' | sed 's#origin/##' | sort)"
+  nuke = "!xargs -r git branch -D"
+  nuke-merged = "!sh -c 'git prune; BR=$(git list-merged); [ -z \"$BR\" ] && echo \"No merged branches.\" && exit 0; echo \"$BR\"; read -p \"Delete merged branches? (y/N): \" C; [ \"$C\" = y ] && echo \"$BR\" | git nuke'"
+  nuke-gone = "!sh -c 'git prune; BR=$(git list-gone); [ -z \"$BR\" ] && echo \"No gone branches.\" && exit 0; echo \"$BR\"; read -p \"Delete branches gone from origin? (y/N): \" C; [ \"$C\" = y ] && echo \"$BR\" | git nuke'"
+  nuke-local-only = "!sh -c 'BR=$(git list-local-only); [ -z \"$BR\" ] && echo \"No local-only branches.\" && exit 0; echo \"$BR\"; read -p \"Delete local-only branches? (y/N): \" C; [ \"$C\" = y ] && echo \"$BR\" | git nuke'"
+  nuke-stale = "!sh -c 'git prune; BR=$( (git list-merged; git list-gone) | sort -u ); [ -z \"$BR\" ] && echo \"No stale branches.\" && exit 0; echo \"$BR\"; read -p \"Delete stale branches (merged + gone)? (y/N): \" C; [ \"$C\" = y ] && echo \"$BR\" | git nuke'"
+  nuke-all = "!sh -c 'git prune; BR=$( (git list-merged; git list-gone; git list-local-only) | sort -u ); [ -z \"$BR\" ] && echo \"No branches to delete.\" && exit 0; echo \"$BR\"; read -p \"Delete ALL stale + local-only branches? (y/N): \" C; [ \"$C\" = y ] && echo \"$BR\" | git nuke'"
+  nuke-merged-force = "!git prune && git list-merged | git nuke"
+  nuke-gone-force = "!git prune && git list-gone | git nuke"
+  nuke-local-only-force = "!git list-local-only | git nuke"
+  nuke-stale-force = "!git prune && (git list-merged; git list-gone) | sort -u | git nuke"
+  nuke-all-force = "!git prune && (git list-merged; git list-gone; git list-local-only) | sort -u | git nuke"
